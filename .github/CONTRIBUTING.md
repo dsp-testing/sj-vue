@@ -46,7 +46,7 @@ $ pnpm i # install the dependencies of the project
 
 ### Committing Changes
 
-Commit messages should follow the [commit message convention](./COMMIT_CONVENTION.md) so that changelogs can be automatically generated. Commit messages will be automatically validated upon commit. If you are not familiar with the commit message convention, you can use `npm run commit` instead of `git commit`, which provides an interactive CLI for generating proper commit messages.
+Commit messages should follow the [commit message convention](./COMMIT_CONVENTION.md) so that changelogs can be automatically generated. Commit messages will be automatically validated upon commit.
 
 ### Commonly used NPM scripts
 
@@ -63,13 +63,13 @@ $ npx vitest {test_file_name_pattern_to_match}
 # build all dist files, including npm packages
 $ npm run build
 
-# run the full test suite, including unit/e2e/type checking
+# run the default test script, including unit/e2e/type checking
 $ npm test
 ```
 
 There are some other scripts available in the `scripts` section of the `package.json` file.
 
-The default test script will do the following: lint with ESLint -> type check with Flow -> unit tests with coverage -> e2e tests. **Please make sure to have this pass successfully before submitting a PR.** Although the same tests will be run against your PR on the CI server, it is better to have it working locally.
+Although the same tests will be run against your PR on the CI server, it is better to have it working locally.
 
 ## Project Structure
 
@@ -79,7 +79,7 @@ The default test script will do the following: lint with ESLint -> type check wi
 
   - `scripts/config.js`: contains the build configurations for all files found in `dist/`. Check this file if you want to find out the entry source file for a dist file.
 
-- **`dist`**: contains built files for distribution. Note this directory is only updated when a release happens; they do not reflect the latest changes in development branches.
+- **`dist`**: contains built files for distribution.
 
   See [dist/README.md](https://github.com/vuejs/vue/blob/dev/dist/README.md) for more details on dist files.
 
@@ -93,9 +93,7 @@ The default test script will do the following: lint with ESLint -> type check wi
 
   - `compiler-sfc` is an internal package that is distributed as part of the main `vue` package. It's aliased and can be imported as `vue/compiler-sfc` similar to Vue 3.
 
-- **`test`**: contains all tests. The unit tests are written with [Jasmine](http://jasmine.github.io/2.3/introduction.html) and run with [Karma](http://karma-runner.github.io/0.13/index.html). The e2e tests are written for and run with [Nightwatch.js](http://nightwatchjs.org/).
-
-- **`src`**: contains the source code. The codebase is written in ES2015 with [Flow](https://flowtype.org/) type annotations.
+- **`src`**: contains the source code.
 
   - **`compiler`**: contains code for the template-to-render-function compiler.
 
@@ -115,15 +113,11 @@ The default test script will do the following: lint with ESLint -> type check wi
 
     - **`components`**: contains universal abstract components.
 
-  - **`server`**: contains code related to server-side rendering.
-
   - **`platforms`**: contains platform-specific code.
 
     Entry files for dist builds are located in their respective platform directory.
 
-    Each platform module contains three parts: `compiler`, `runtime` and `server`, corresponding to the three directories above. Each part contains platform-specific modules/utilities which are imported and injected to the core counterparts in platform-specific entry files. For example, the code implementing the logic behind `v-bind:class` is in `platforms/web/runtime/modules/class.js` - which is imported in `platforms/web/entry-runtime.ts` and used to create the browser-specific vdom patching function.
-
-  - **`sfc`**: contains single-file component (`*.vue` files) parsing logic. This is used in the `vue-template-compiler` package.
+    For example, the code implementing the logic behind `v-bind:class` is in `platforms/web/runtime/modules/class.ts` - which is used by `platforms/web/entry-runtime.ts` to create the browser-specific vdom patching function.
 
   - **`shared`**: contains utilities shared across the entire codebase.
 
